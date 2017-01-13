@@ -14,9 +14,12 @@ using JetBrains.Util;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.Metadata.Reader.API;
+using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
 namespace ModuleDependence
 {
+    [ContextAction(Description = "Depenency Check", Group = "C#", Name = "DepenencyCheck", Priority = 1)]
     public class DepenencyChecker : ContextActionBase
     {
 
@@ -48,8 +51,10 @@ namespace ModuleDependence
             //        output.WriteLine(reference.Name + "," + reference.OwnerModule);
             //    }
             //}
-
-
+            var factory = CSharpElementFactory.GetInstance(_provider.PsiModule);
+            var oldComment = _provider.TokenAfterCaret as ICommentNode;
+            var newComment = factory.CreateComment("/* hello, world */");
+            ModificationUtil.ReplaceChild(oldComment, newComment);
             return null;
         }
     }
