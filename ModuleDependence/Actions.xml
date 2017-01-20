@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<actions>
-  <insert group-id="ReSharper.Navigate" position="last">
-    <separator />
-    <action id="ModuleDependence.Output" text="List All Dependencies"/>
-  </insert>
-</actions>

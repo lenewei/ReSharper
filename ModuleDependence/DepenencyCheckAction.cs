@@ -19,20 +19,20 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
 namespace ModuleDependence
 {
-    [ContextAction(Description = "Depenency Check", Group = "C#", Name = "DepenencyCheck", Priority = 1)]
-    public class DepenencyChecker : ContextActionBase
+    [ContextAction(Name = "DepenencyCheck", Description = "Depenency Check", Group = "C#")]
+    public class DepenencyCheckAction : ContextActionBase
     {
 
         private readonly ICSharpContextActionDataProvider _provider;
 
-        public DepenencyChecker(ICSharpContextActionDataProvider provider)
+        public DepenencyCheckAction(ICSharpContextActionDataProvider provider)
         {
             _provider = provider;
         }
 
         public override string Text
         {
-            get { return "DepenencyChecker"; }
+            get { return "DepenencyCheck"; }
         }
 
         public override bool IsAvailable(IUserDataHolder cache)
@@ -42,19 +42,6 @@ namespace ModuleDependence
 
         protected override Action<ITextControl> ExecutePsiTransaction([NotNull] ISolution solution, [NotNull] IProgressIndicator progress)
         {
-            //var factory = CSharpElementFactory.GetInstance(_provider.PsiModule);
-            //using (var output = new StreamWriter("ReferencedAssemblies.csv"))
-            //{
-
-            //    foreach (var reference in _provider.Project.GetModuleReferences(TargetFrameworkId.Default))
-            //    {
-            //        output.WriteLine(reference.Name + "," + reference.OwnerModule);
-            //    }
-            //}
-            var factory = CSharpElementFactory.GetInstance(_provider.PsiModule);
-            var oldComment = _provider.TokenAfterCaret as ICommentNode;
-            var newComment = factory.CreateComment("/* hello, world */");
-            ModificationUtil.ReplaceChild(oldComment, newComment);
             return null;
         }
     }
