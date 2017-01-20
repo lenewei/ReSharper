@@ -1,26 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using JetBrains.Application.Progress;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.Bulbs;
-using JetBrains.ReSharper.Feature.Services.CSharp.Bulbs;
-using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.CSharp;
-using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.TextControl;
-using JetBrains.Util;
-using JetBrains.ReSharper.Psi.Naming.Impl;
-using JetBrains.ReSharper.Psi.CSharp.Impl.CodeStyle.MemberReordering;
 using JetBrains.ReSharper.Feature.Services.ContextActions;
 using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
-using JetBrains.ReSharper.Features.Navigation.Features.FindDependentCode;
 using JetBrains.ReSharper.Feature.Services.Occurrences;
+using JetBrains.ReSharper.Features.Navigation.Features.FindDependentCode;
+using JetBrains.TextControl;
+using JetBrains.Util;
 
-namespace MyReSharperPlugins
+namespace ModuleDependence
 {
 
    [ContextAction(Name = "DependencyCheck", Description = "Check all the dependencies", Group = "C#")]
@@ -91,8 +84,7 @@ namespace MyReSharperPlugins
                //}
             }
          }
-         _output.Add(sb.ToString());         
-
+         _output.Add(sb.ToString());
          _output.Add(sbOccur.ToString());
 
          // Pass all the environment variables to the form and gather the main logic there

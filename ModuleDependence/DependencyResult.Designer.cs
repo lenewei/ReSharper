@@ -1,4 +1,4 @@
-﻿namespace MyReSharperPlugins
+﻿namespace ModuleDependence
 {
    partial class DependencyResult
    {
