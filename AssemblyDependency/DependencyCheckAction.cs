@@ -57,25 +57,24 @@ namespace AssemblyDependency
          foreach (var project in projects)
          {
             sb.AppendLine(project.Name);
-            var assemblyReferences = project.GetAssemblyReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("SunGard.AvantGard.Quantum") && !_.Name.Contains("SunGard.AvantGard.Quantum.External"));
+            //var assemblyReferences = project.GetAssemblyReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("SunGard.AvantGard.Quantum") && !_.Name.Contains("SunGard.AvantGard.Quantum.External"));
+            var assemblyReferences = project.GetProjectReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("ES.Shared")).ToList();
             foreach (var reference in assemblyReferences)
             {
-               sb.AppendLine(string.Format("    - {0}", reference.Name));
+               sb.AppendLine($"    - {reference.Name}");
             }
 
-            var moduleReference = new List<IProjectToModuleReference>();
-            foreach (var asmRef in assemblyReferences) moduleReference.Add(asmRef);
+            var moduleReference = assemblyReferences.Cast<IProjectToModuleReference>().ToList();
 
             if (moduleReference.Count == 0) continue;
 
             sbOccur.AppendLine(project.Name);
             var searchRequest = new SearchCodeDependentOnReferenceRequest(moduleReference);
             var occurrences = searchRequest.Search();
-            var referenceOccurrences = new List<ReferenceOccurrence>();
-            foreach (ReferenceOccurrence occurrence in occurrences) referenceOccurrences.Add(occurrence);
+            var referenceOccurrences = occurrences.Cast<ReferenceOccurrence>().ToList();
             foreach (var sameReferenceGroup in referenceOccurrences.GroupBy(_ => _.Target.ToString()).OrderBy(_ => _.Key))
             {
-               sbOccur.AppendLine(string.Format("    - {0}", sameReferenceGroup.Key));
+               sbOccur.AppendLine($"    - {sameReferenceGroup.Key}");
 
                //not output details for now
                //foreach (var item in sameReferenceGroup)
@@ -94,9 +93,6 @@ namespace AssemblyDependency
          return null;
       }
 
-      public override string Text
-      {
-         get { return "DependencyCheck"; }
-      }
+      public override string Text => "DependencyCheck";
    }
 }

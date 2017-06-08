@@ -2,3 +2,5 @@ ModuleDependence/bin
 ModuleDependence/obj
 packages/
 .vs/
+AssemblyDependency/bin/
+AssemblyDependency/obj/
