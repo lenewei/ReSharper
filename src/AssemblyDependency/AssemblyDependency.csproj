@@ -33,7 +33,7 @@
   </PropertyGroup>
   <!-- See note below for ReSharper Ultimate -->
   <PropertyGroup>
-    <HostFullIdentifier>ReSharperPlatformVs14Plugins</HostFullIdentifier>
+    <HostFullIdentifier>ReSharperPlatformVs14Exp</HostFullIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Appccelerate.Fundamentals">
@@ -340,9 +340,10 @@
       <Output TaskParameter="Directories" ItemName="InstallFolder" />
     </InstalledProductsDiscoveryTask>
     <Message Text="InstallFolder: @(InstallFolder)" Importance="High" />
-    <Copy SourceFiles="bin\Debug\AssemblyDependency.dll" DestinationFolder="@(InstallFolder)" Condition="Exists('@(InstallFolder)')" />
-    <Copy SourceFiles="bin\Debug\AssemblyDependency.pdb" DestinationFolder="@(InstallFolder)" Condition="Exists('@(InstallFolder)')" />
   </Target>
+  <Target Name="AfterCopyPlugin" AfterTargets="CopyPlugin" Condition="'$(HostFullIdentifier)' != ''">
+	<Copy SourceFiles="bin\Debug\AssemblyDependency.pdb" DestinationFolder="@(InstallFolder)" Condition="Exists('@(InstallFolder)')" />
+  </Target>  
   <Import Project="..\packages\JetBrains.Platform.Interop.dotMemoryUnit.Framework.108.0.20170428.75756\build\JetBrains.Platform.Interop.dotMemoryUnit.Framework.targets" Condition="Exists('..\packages\JetBrains.Platform.Interop.dotMemoryUnit.Framework.108.0.20170428.75756\build\JetBrains.Platform.Interop.dotMemoryUnit.Framework.targets')" />
   <Import Project="..\packages\JetBrains.Platform.Core.Shell.108.0.20170427.83335\build\JetBrains.Platform.Core.Shell.targets" Condition="Exists('..\packages\JetBrains.Platform.Core.Shell.108.0.20170427.83335\build\JetBrains.Platform.Core.Shell.targets')" />
   <Import Project="..\packages\JetBrains.Platform.Core.Text.108.0.20170428.75756\build\JetBrains.Platform.Core.Text.targets" Condition="Exists('..\packages\JetBrains.Platform.Core.Text.108.0.20170428.75756\build\JetBrains.Platform.Core.Text.targets')" />
