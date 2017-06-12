@@ -1,4 +1,4 @@
 src/packages/
 src/.vs/
-src/AssemblyDependency/bin/
-src/AssemblyDependency/obj/
+src/*/bin/
+src/*/obj/
