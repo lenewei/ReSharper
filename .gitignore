@@ -1,6 +1,4 @@
-ModuleDependence/bin
-ModuleDependence/obj
-packages/
-.vs/
-AssemblyDependency/bin/
-AssemblyDependency/obj/
+src/packages/
+src/.vs/
+src/AssemblyDependency/bin/
+src/AssemblyDependency/obj/

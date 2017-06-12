@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using System.Linq;
 using System.Threading;
 using JetBrains.Application.Progress;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.ContextActions;
-using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
-using JetBrains.ReSharper.Feature.Services.Occurrences;
-using JetBrains.ReSharper.Features.Navigation.Features.FindDependentCode;
 using JetBrains.TextControl;
 using JetBrains.Util;
+using JetBrains.ReSharper.Feature.Services.ContextActions;
+using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
+using JetBrains.ReSharper.Features.Navigation.Features.FindDependentCode;
+using JetBrains.ReSharper.Feature.Services.Occurrences;
 
-namespace ModuleDependence
+namespace AssemblyDependency
 {
 
    [ContextAction(Name = "DependencyCheck", Description = "Check all the dependencies", Group = "C#")]
@@ -57,25 +57,24 @@ namespace ModuleDependence
          foreach (var project in projects)
          {
             sb.AppendLine(project.Name);
-            var assemblyReferences = project.GetAssemblyReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("SunGard.AvantGard.Quantum") && !_.Name.Contains("SunGard.AvantGard.Quantum.External"));
+            //var assemblyReferences = project.GetAssemblyReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("SunGard.AvantGard.Quantum") && !_.Name.Contains("SunGard.AvantGard.Quantum.External"));
+            var assemblyReferences = project.GetProjectReferences(TargetFrameworkId.Default).Where(_ => _.Name.Contains("ES.Shared")).ToList();
             foreach (var reference in assemblyReferences)
             {
-               sb.AppendLine(string.Format("    - {0}", reference.Name));
+               sb.AppendLine($"    - {reference.Name}");
             }
 
-            var moduleReference = new List<IProjectToModuleReference>();
-            foreach (var asmRef in assemblyReferences) moduleReference.Add(asmRef);
+            var moduleReference = assemblyReferences.Cast<IProjectToModuleReference>().ToList();
 
             if (moduleReference.Count == 0) continue;
 
             sbOccur.AppendLine(project.Name);
             var searchRequest = new SearchCodeDependentOnReferenceRequest(moduleReference);
             var occurrences = searchRequest.Search();
-            var referenceOccurrences = new List<ReferenceOccurrence>();
-            foreach (ReferenceOccurrence occurrence in occurrences) referenceOccurrences.Add(occurrence);
+            var referenceOccurrences = occurrences.Cast<ReferenceOccurrence>().ToList();
             foreach (var sameReferenceGroup in referenceOccurrences.GroupBy(_ => _.Target.ToString()).OrderBy(_ => _.Key))
             {
-               sbOccur.AppendLine(string.Format("    - {0}", sameReferenceGroup.Key));
+               sbOccur.AppendLine($"    - {sameReferenceGroup.Key}");
 
                //not output details for now
                //foreach (var item in sameReferenceGroup)
@@ -84,7 +83,7 @@ namespace ModuleDependence
                //}
             }
          }
-         _output.Add(sb.ToString());
+         _output.Add(sb.ToString());         
          _output.Add(sbOccur.ToString());
 
          // Pass all the environment variables to the form and gather the main logic there
@@ -94,9 +93,6 @@ namespace ModuleDependence
          return null;
       }
 
-      public override string Text
-      {
-         get { return "DependencyCheck"; }
-      }
+      public override string Text => "DependencyCheck";
    }
 }
