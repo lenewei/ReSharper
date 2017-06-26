@@ -33,7 +33,7 @@
   </PropertyGroup>
   <!-- See note below for ReSharper Ultimate -->
   <PropertyGroup>
-    <HostFullIdentifier>ReSharperPlatformVs14Exp</HostFullIdentifier>
+    <HostFullIdentifier>ReSharperPlatformVs14</HostFullIdentifier>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="antlr.runtime, Version=2.7.7.1, Culture=neutral, PublicKeyToken=0f493c87b190d7e9, processorArchitecture=MSIL">
